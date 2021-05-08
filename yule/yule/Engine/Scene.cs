@@ -37,13 +37,15 @@ namespace yule.Engine
             foreach (var entity in Entities)
             {
                 var renderer = entity.GetComponent<SpriteRenderer>();
+                var transform = entity.GetComponent<Transform>();
                 
                 if (renderer != null)
                 {
                     if (renderer.Dimensions.IsEmpty)
-                        spriteBatch.Draw(renderer.Sprite, entity.GetComponent<Transform>().Position, renderer.Color);
+                        spriteBatch.Draw(renderer.Sprite, transform.Position, renderer.Color);
                     else
-                        spriteBatch.Draw(renderer.Sprite, renderer.Dimensions, renderer.Color);
+                        spriteBatch.Draw(renderer.Sprite, new Rectangle((int)transform.Position.X, (int)transform.Position.Y,
+                            renderer.Dimensions.Width, renderer.Dimensions.Height), renderer.Color);
                 }
             }
             

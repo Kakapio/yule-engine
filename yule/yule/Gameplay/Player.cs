@@ -13,7 +13,8 @@ namespace yule.Gameplay
             base.Initialize();
             
             AddComponent(renderer);
-            renderer.Dimensions = new Rectangle(0, 0, 100, 100);
+            AddComponent(new PlayerMovement());
+            renderer.Dimensions = new Rectangle(0, 0, 25, 25);
         }
     }
 }
