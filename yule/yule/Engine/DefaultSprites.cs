@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace yule.Engine
@@ -10,10 +11,9 @@ namespace yule.Engine
     {
         public static Texture2D WhiteSquare { get; private set; }
 
-        public static void Initialize(GraphicsDevice graphicsDevice)
+        public static void Load(ContentManager content)
         {
-            WhiteSquare = new Texture2D(graphicsDevice, 1, 1);
-            WhiteSquare.SetData(new[] { Color.White });
+            WhiteSquare = content.Load<Texture2D>("square");
         }
     }
 }

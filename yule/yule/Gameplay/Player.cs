@@ -1,4 +1,5 @@
-﻿using yule.ECS;
+﻿using Microsoft.Xna.Framework;
+using yule.ECS;
 using yule.Engine;
 
 namespace yule.Gameplay
@@ -12,6 +13,7 @@ namespace yule.Gameplay
             base.Initialize();
             
             AddComponent(renderer);
+            renderer.Dimensions = new Rectangle(0, 0, 100, 100);
         }
     }
 }

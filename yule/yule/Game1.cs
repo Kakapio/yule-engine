@@ -36,7 +36,7 @@ namespace yule
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
-            DefaultSprites.Initialize(GraphicsDevice);
+            DefaultSprites.Load(Content);
         }
 
         protected override void Update(GameTime gameTime)

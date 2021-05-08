@@ -9,7 +9,7 @@ namespace yule.ECS
     /// </summary>
     public class Entity
     {
-        protected readonly List<IComponent> Components = new List<IComponent>();
+        protected readonly List<Component> Components = new List<Component>();
 
         public Entity()
         {
@@ -21,7 +21,7 @@ namespace yule.ECS
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetComponent<T>() where T : IComponent
+        public T GetComponent<T>() where T : Component
         {
             foreach (var comp in Components)
             {
@@ -36,9 +36,10 @@ namespace yule.ECS
         /// Add a component to the entity and initialize it.
         /// </summary>
         /// <param name="comp"></param>
-        public void AddComponent(IComponent comp)
+        public void AddComponent(Component comp)
         {
             Components.Add(comp);
+            comp.Owner = this;
             comp.Initialize();
         }
         
@@ -48,7 +49,7 @@ namespace yule.ECS
         public virtual void Initialize() {}
 
         /// <summary>
-        /// Provides basic update logic, can be overridden to add components to entity.
+        /// Provides basic update logic. Avoid overriding, use components instead.
         /// </summary>
         /// <param name="gameTime"></param>
         public virtual void Update(GameTime gameTime)

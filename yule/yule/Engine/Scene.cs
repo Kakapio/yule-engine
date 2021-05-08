@@ -32,15 +32,22 @@ namespace yule.Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
+            
             foreach (var entity in Entities)
             {
                 var renderer = entity.GetComponent<SpriteRenderer>();
                 
                 if (renderer != null)
                 {
-                    spriteBatch.Draw(renderer.Sprite, entity.GetComponent<Transform>().Position, renderer.Color);
+                    if (renderer.Dimensions.IsEmpty)
+                        spriteBatch.Draw(renderer.Sprite, entity.GetComponent<Transform>().Position, renderer.Color);
+                    else
+                        spriteBatch.Draw(renderer.Sprite, renderer.Dimensions, renderer.Color);
                 }
             }
+            
+            spriteBatch.End();
         }
     }
 }
