@@ -12,6 +12,8 @@ namespace yule.Engine
     public class Scene
     {
         public readonly List<Entity> Entities = new List<Entity>();
+        public TileMap TileMap = new TileMap(1024, 1024, 8);
+        private Camera camera = new Camera();
         
         public void Initialize()
         {
@@ -34,6 +36,20 @@ namespace yule.Engine
         {
             spriteBatch.Begin();
             
+            //Render TileMap.
+            for (int col = 0; col < TileMap.Data.GetLength(0); col++)
+            {
+                for (int row = 0; row < TileMap.Data.GetLength(1); row++)
+                {
+                    if (TileMap.Data[col, row].Type == TileType.Air)
+                        continue;
+                    
+                    spriteBatch.Draw(GameContent.Textures[TileMap.Data[col, row].Type.ToString().ToLower()], 
+                        new Vector2(col * TileMap.TileSize, row * TileMap.TileSize), Color.White);
+                }
+            }
+
+            //Render all entities.
             foreach (var entity in Entities)
             {
                 var renderer = entity.GetComponent<SpriteRenderer>();
