@@ -17,7 +17,7 @@ namespace yule
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Scene scene = new Scene();
+        private Scene scene;
 
         public Game1()
         {
@@ -30,6 +30,7 @@ namespace yule
 
         protected override void Initialize()
         {
+            scene = new Scene(GraphicsDevice);
             scene.Initialize();
             
             base.Initialize();

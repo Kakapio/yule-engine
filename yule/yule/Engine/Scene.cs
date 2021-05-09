@@ -13,7 +13,13 @@ namespace yule.Engine
     {
         public readonly List<Entity> Entities = new List<Entity>();
         public TileMap TileMap = new TileMap(1024, 1024, 8);
-        private Camera camera = new Camera();
+        
+        private Camera camera;
+
+        public Scene(GraphicsDevice graphicsDevice)
+        {
+            camera = new Camera(graphicsDevice);
+        }
         
         public void Initialize()
         {
@@ -26,6 +32,8 @@ namespace yule.Engine
 
         public void Update(GameTime gameTime)
         {
+            camera.UpdateCamera();
+            
             foreach (var entity in Entities)
             {
                 entity.Update(gameTime);
@@ -34,7 +42,7 @@ namespace yule.Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera.Transform);
             
             //Render TileMap.
             for (int col = 0; col < TileMap.Data.GetLength(0); col++)
