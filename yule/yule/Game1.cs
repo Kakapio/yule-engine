@@ -24,14 +24,16 @@ namespace yule
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
         }
 
         protected override void Initialize()
         {
             scene = new Scene(GraphicsDevice);
             scene.Initialize();
+            
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
             
             base.Initialize();
         }

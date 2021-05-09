@@ -8,7 +8,7 @@ namespace yule.Gameplay
 {
     public class PlayerMovement : Component
     {
-        private Vector2 speed = Vector2.One * 75;
+        private Vector2 speed = Vector2.One * 1500;
         private Transform transform;
 
         public override void Initialize()

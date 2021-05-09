@@ -28,6 +28,7 @@ namespace yule.Engine
             {
                 entity.Initialize();
             }
+            Entities[0].GetComponent<Transform>().Position = new Vector2(-640, -360);
         }
 
         public void Update(GameTime gameTime)
@@ -44,18 +45,7 @@ namespace yule.Engine
         {
             spriteBatch.Begin(transformMatrix: camera.Transform);
             
-            //Render TileMap.
-            for (int col = 0; col < TileMap.Data.GetLength(0); col++)
-            {
-                for (int row = 0; row < TileMap.Data.GetLength(1); row++)
-                {
-                    if (TileMap.Data[col, row].Type == TileType.Air)
-                        continue;
-                    
-                    spriteBatch.Draw(GameContent.Textures[TileMap.Data[col, row].Type.ToString().ToLower()], 
-                        new Vector2(col * TileMap.TileSize, row * TileMap.TileSize), Color.White);
-                }
-            }
+            TileMap.Render(spriteBatch, camera.VisibleArea);
 
             //Render all entities.
             foreach (var entity in Entities)

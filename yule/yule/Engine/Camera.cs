@@ -9,14 +9,14 @@ namespace yule.Engine
     
     public class Camera
     {
-        public float Zoom { get; set; }
+        public float Zoom { get; private set; }
         public Vector2 Position { get; set; }
-        public Rectangle Bounds { get; protected set; }
-        public Rectangle VisibleArea { get; protected set; }
-        public Matrix Transform { get; protected set; }
+        public Rectangle Bounds { get; private set; }
+        public Rectangle VisibleArea { get; private set; }
+        public Matrix Transform { get; private set; }
 
         private GraphicsDevice graphicsDevice;
-        private float currentMouseWheelValue, previousMouseWheelValue, zoom, previousZoom;
+        private float currentMouseWheelValue, previousMouseWheelValue;
 
         public Camera(GraphicsDevice graphicsDevice)
         {
@@ -62,14 +62,12 @@ namespace yule.Engine
         public void AdjustZoom(float zoomAmount)
         {
             Zoom += zoomAmount;
-            if (Zoom < .35f)
-                Zoom = .35f;
-            if (Zoom > 2f)
-                Zoom = 2f;
+            Math.Clamp(Zoom, 0.35f, 2f);
         }
 
         public void UpdateCamera()
         {
+            Console.WriteLine(VisibleArea.ToString());
             Bounds = graphicsDevice.Viewport.Bounds;
             UpdateMatrix();
 
@@ -104,13 +102,9 @@ namespace yule.Engine
             currentMouseWheelValue = Mouse.GetState().ScrollWheelValue;
 
             if (currentMouseWheelValue > previousMouseWheelValue)
-                AdjustZoom(.05f);
-
-            if (currentMouseWheelValue < previousMouseWheelValue)
-                AdjustZoom(-.05f);
-
-            previousZoom = zoom;
-            zoom = Zoom;
+                AdjustZoom(0.05f);
+            else if (currentMouseWheelValue < previousMouseWheelValue)
+                AdjustZoom(-0.05f);
 
             MoveCamera(cameraMovement);
         }
