@@ -67,7 +67,6 @@ namespace yule.Engine
 
         public void UpdateCamera()
         {
-            Console.WriteLine(VisibleArea.ToString());
             Bounds = graphicsDevice.Viewport.Bounds;
             UpdateMatrix();
 

@@ -39,7 +39,7 @@ namespace yule.Engine
             upperBound = new Vector2(Math.Clamp(upperBound.X + lowerBound.X + RenderPadding, 0, Data.GetLength(0)),
                                      Math.Clamp(upperBound.Y + lowerBound.Y + RenderPadding, 0, Data.GetLength(1)));
             
-            for (int col = (int)lowerBound.X; col < upperBound.Y; col++)
+            for (int col = (int)lowerBound.X; col < upperBound.X; col++)
             {
                 for (int row = (int)lowerBound.Y; row < upperBound.Y; row++)
                 {
