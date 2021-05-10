@@ -102,16 +102,16 @@ namespace yule.Engine
                 moveSpeed = 10;
 
             KeyboardState keyboard = Keyboard.GetState();
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (keyboard.IsKeyDown(Keys.Up))
                 cameraMovement.Y = -moveSpeed;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (keyboard.IsKeyDown(Keys.Down))
                 cameraMovement.Y = moveSpeed;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (keyboard.IsKeyDown(Keys.Left))
                 cameraMovement.X = -moveSpeed;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (keyboard.IsKeyDown(Keys.Right))
                 cameraMovement.X = moveSpeed;
 
             previousMouseWheelValue = currentMouseWheelValue;

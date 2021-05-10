@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Humper;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -13,7 +14,8 @@ namespace yule.Engine
     {
         public readonly List<Entity> Entities = new List<Entity>();
         public TileMap TileMap = new TileMap(1024, 1024, 8);
-        
+
+        private World physicsWorld;
         private Camera camera;
         private bool debugMode;
         private KeyboardState prevKeyBoardState;
@@ -21,6 +23,7 @@ namespace yule.Engine
         public Scene(GraphicsDevice graphicsDevice)
         {
             camera = new Camera(graphicsDevice);
+            physicsWorld = new World(graphicsDevice.Viewport.Bounds.X, graphicsDevice.Viewport.Bounds.Y);
         }
         
         public void Initialize()
@@ -37,10 +40,10 @@ namespace yule.Engine
         {
             camera.Update();
             
-            foreach (var entity in Entities)
-            {
-                entity.Update(gameTime);
-            }
+            TransformSystem.Update(gameTime);
+            SpriteSystem.Update(gameTime);
+            ColliderSystem.Update(gameTime);
+            DefaultSystem.Update(gameTime);
             
             #if DEBUG
             CheckDebugMode();
@@ -56,15 +59,15 @@ namespace yule.Engine
             //Render all entities.
             foreach (var entity in Entities)
             {
-                var renderer = entity.GetComponent<SpriteRenderer>();
+                var renderer = entity.GetComponent<Sprite>();
                 var transform = entity.GetComponent<Transform>();
                 
                 if (renderer != null)
                 {
                     if (renderer.Dimensions.IsEmpty)
-                        spriteBatch.Draw(renderer.Sprite, transform.Position, renderer.Color);
+                        spriteBatch.Draw(renderer.Texture, transform.Position, renderer.Color);
                     else
-                        spriteBatch.Draw(renderer.Sprite, new Rectangle((int)transform.Position.X, (int)transform.Position.Y,
+                        spriteBatch.Draw(renderer.Texture, new Rectangle((int)transform.Position.X, (int)transform.Position.Y,
                             renderer.Dimensions.Width, renderer.Dimensions.Height), renderer.Color);
 
                     //Rendering code to show colliders

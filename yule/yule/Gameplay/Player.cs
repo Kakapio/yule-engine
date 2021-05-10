@@ -5,7 +5,7 @@ namespace yule.Gameplay
 {
     public class Player : Entity
     {
-        private SpriteRenderer renderer = new SpriteRenderer();
+        private Sprite renderer = new Sprite();
         
         public override void Initialize()
         {

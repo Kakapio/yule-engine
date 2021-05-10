@@ -44,20 +44,8 @@ namespace yule.Engine
         }
         
         /// <summary>
-        /// Can be overridden to add initialization logic.
+        /// Used to add components to our entity and set their parameters.
         /// </summary>
         public virtual void Initialize() {}
-
-        /// <summary>
-        /// Provides basic update logic. Avoid overriding, use components instead.
-        /// </summary>
-        /// <param name="gameTime"></param>
-        public virtual void Update(GameTime gameTime)
-        {
-            foreach (var comp in Components)
-            {
-                comp.Update(gameTime);
-            }
-        }
     }
 }

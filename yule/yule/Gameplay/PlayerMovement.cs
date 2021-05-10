@@ -9,6 +9,11 @@ namespace yule.Gameplay
         private Vector2 speed = Vector2.One * 1500;
         private Transform transform;
 
+        public PlayerMovement()
+        {
+            DefaultSystem.Register(this);
+        }
+        
         public override void Initialize()
         {
             base.Initialize();
@@ -23,13 +28,13 @@ namespace yule.Gameplay
 
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.A))
-                transform.Position -= new Vector2(speed.X, 0) * deltaTime;
+                transform.Velocity -= new Vector2(speed.X, 0) * deltaTime;
             else if (state.IsKeyDown(Keys.D))
-                transform.Position += new Vector2(speed.X, 0) * deltaTime;
+                transform.Velocity += new Vector2(speed.X, 0) * deltaTime;
             if (state.IsKeyDown(Keys.S))
-                transform.Position += new Vector2(0, speed.Y) * deltaTime;
+                transform.Velocity += new Vector2(0, speed.Y) * deltaTime;
             else if (state.IsKeyDown(Keys.W))
-                transform.Position -= new Vector2(0, speed.Y) * deltaTime;
+                transform.Velocity -= new Vector2(0, speed.Y) * deltaTime;
         }
     }
 }

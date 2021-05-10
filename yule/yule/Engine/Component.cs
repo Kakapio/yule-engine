@@ -8,7 +8,7 @@ namespace yule.Engine
     public class Component
     {
         public Entity Owner { get; set; }
-        
+
         public virtual void Initialize()
         {
         }
