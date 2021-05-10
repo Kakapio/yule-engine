@@ -13,7 +13,7 @@ namespace yule.Engine
         public Vector2 Position { get; set; }
         public Rectangle Bounds { get; private set; }
         public Rectangle VisibleArea { get; private set; }
-        public Matrix Transform { get; private set; }
+        public Matrix TransformMatrix { get; private set; }
 
         private GraphicsDevice graphicsDevice;
         private float currentMouseWheelValue, previousMouseWheelValue;
@@ -26,9 +26,12 @@ namespace yule.Engine
             Position = Vector2.Zero;
         }
 
+        /// <summary>
+        /// Convert our view matrix from view space -> world space to update our visible area.
+        /// </summary>
         private void UpdateVisibleArea()
         {
-            var inverseViewMatrix = Matrix.Invert(Transform);
+            var inverseViewMatrix = Matrix.Invert(TransformMatrix);
 
             var tl = Vector2.Transform(Vector2.Zero, inverseViewMatrix);
             var tr = Vector2.Transform(new Vector2(Bounds.X, 0), inverseViewMatrix);
@@ -44,28 +47,42 @@ namespace yule.Engine
             VisibleArea = new Rectangle((int)min.X, (int)min.Y, (int)(max.X - min.X), (int)(max.Y - min.Y));
         }
         
+        /// <summary>
+        /// Create a matrix with our desired position and scale for rendering usage.
+        /// </summary>
         private void UpdateMatrix()
         {
-            Transform = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
+            TransformMatrix = Matrix.CreateTranslation(new Vector3(-Position.X, -Position.Y, 0)) *
                         Matrix.CreateScale(Zoom) *
                         Matrix.CreateTranslation(new Vector3(Bounds.Width * 0.5f, Bounds.Height * 0.5f, 0));
             
             UpdateVisibleArea();
         }
         
+        /// <summary>
+        /// Change the camera's position by an amount.
+        /// </summary>
+        /// <param name="movePosition"></param>
         public void MoveCamera(Vector2 movePosition)
         {
             Vector2 newPosition = Position + movePosition;
             Position = newPosition;
         }
         
+        /// <summary>
+        /// Modify the zoom by an amount. Value is clamped.
+        /// </summary>
+        /// <param name="zoomAmount"></param>
         public void AdjustZoom(float zoomAmount)
         {
             Zoom += zoomAmount;
             Math.Clamp(Zoom, 0.35f, 2f);
         }
 
-        public void UpdateCamera()
+        /// <summary>
+        /// Recalculate camera matrix based on current position/scale.
+        /// </summary>
+        public void Update()
         {
             Bounds = graphicsDevice.Viewport.Bounds;
             UpdateMatrix();

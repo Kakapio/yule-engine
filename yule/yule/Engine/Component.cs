@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace yule.ECS
+namespace yule.Engine
 {
     /// <summary>
     /// Describes a piece of logic with initialization and update methods.

@@ -10,10 +10,11 @@ namespace yule.Engine
     public static class DefaultSprites
     {
         public static Texture2D WhiteSquare { get; private set; }
-
-        public static void Load(ContentManager content)
+        
+        public static void Load(GraphicsDevice graphicsDevice)
         {
-            WhiteSquare = content.Load<Texture2D>("square");
+            WhiteSquare = new Texture2D(graphicsDevice, 1, 1);
+            WhiteSquare.SetData(new[] { Color.White });
         }
     }
 }

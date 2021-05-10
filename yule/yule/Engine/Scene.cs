@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using yule.ECS;
+using Microsoft.Xna.Framework.Input;
 using yule.Gameplay;
 
 namespace yule.Engine
@@ -15,6 +15,8 @@ namespace yule.Engine
         public TileMap TileMap = new TileMap(1024, 1024, 8);
         
         private Camera camera;
+        private bool debugMode;
+        private KeyboardState prevKeyBoardState;
 
         public Scene(GraphicsDevice graphicsDevice)
         {
@@ -28,24 +30,28 @@ namespace yule.Engine
             {
                 entity.Initialize();
             }
-            Entities[0].GetComponent<Transform>().Position = new Vector2(-640, -360);
+            prevKeyBoardState = Keyboard.GetState();
         }
 
         public void Update(GameTime gameTime)
         {
-            camera.UpdateCamera();
+            camera.Update();
             
             foreach (var entity in Entities)
             {
                 entity.Update(gameTime);
             }
+            
+            #if DEBUG
+            CheckDebugMode();
+            #endif
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: camera.Transform);
+            spriteBatch.Begin(transformMatrix: camera.TransformMatrix);
             
-            TileMap.Render(spriteBatch, camera.VisibleArea);
+            TileMap.Render(spriteBatch, camera.VisibleArea, debugMode);
 
             //Render all entities.
             foreach (var entity in Entities)
@@ -60,10 +66,27 @@ namespace yule.Engine
                     else
                         spriteBatch.Draw(renderer.Sprite, new Rectangle((int)transform.Position.X, (int)transform.Position.Y,
                             renderer.Dimensions.Width, renderer.Dimensions.Height), renderer.Color);
+
+                    //Rendering code to show colliders
+                    if (debugMode)
+                    {
+                        //TODO
+                    }
                 }
             }
             
             spriteBatch.End();
+        }
+        
+        private void CheckDebugMode()
+        {
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            //Make sure DebugRender can only be triggered once a frame.
+            if (keyboardState.IsKeyDown(Keys.OemTilde) && !prevKeyBoardState.IsKeyDown(Keys.OemTilde))
+                debugMode = !debugMode;
+
+            prevKeyBoardState = keyboardState;
         }
     }
 }

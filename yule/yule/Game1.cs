@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using yule.ECS;
 using yule.Engine;
-using yule.Gameplay;
 
 namespace yule
 {
@@ -42,7 +40,7 @@ namespace yule
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
-            DefaultSprites.Load(Content);
+            DefaultSprites.Load(GraphicsDevice);
             GameContent.Load(Content);
         }
 

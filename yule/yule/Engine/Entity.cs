@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using yule.Engine;
 
-namespace yule.ECS
+namespace yule.Engine
 {
     /// <summary>
     /// Describes an object composed of several components.

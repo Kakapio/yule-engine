@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using yule.ECS;
 using yule.Engine;
 
 namespace yule.Gameplay
@@ -26,8 +24,12 @@ namespace yule.Gameplay
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.A))
                 transform.Position -= new Vector2(speed.X, 0) * deltaTime;
-            if (state.IsKeyDown(Keys.D))
+            else if (state.IsKeyDown(Keys.D))
                 transform.Position += new Vector2(speed.X, 0) * deltaTime;
+            if (state.IsKeyDown(Keys.S))
+                transform.Position += new Vector2(0, speed.Y) * deltaTime;
+            else if (state.IsKeyDown(Keys.W))
+                transform.Position -= new Vector2(0, speed.Y) * deltaTime;
         }
     }
 }

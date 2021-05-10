@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using yule.ECS;
 
 namespace yule.Engine
 {
