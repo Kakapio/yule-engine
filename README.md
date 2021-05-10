@@ -7,3 +7,4 @@ A 2D survival game intended to demonstrate technical ability in tackling a large
 * Entity Component Scene system. Everything in the world is made of an entity containing various components.
 * Camera. A view matrix is generated based on a camera's position and zoom, which is then used to render the sprites.
 * Tilemaps. A tile is composed of two ints describing its type and hits to break. A tilemap has a 2D array of tiles that are then used to render the world. Culling based on camera position is included to improve performance. Can support up to ~1,048,576,000 tiles.
+* Debug mode. Push the tilde (~) key to have all tiles and colliders outlined.
