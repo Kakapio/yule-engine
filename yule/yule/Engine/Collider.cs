@@ -11,14 +11,11 @@ namespace yule.Engine
     {
         public Rectangle Dimensions { get; private set; }
         public string CollisionLayer { get; private set; }
-        public float Width { get; private set; }
-        public float Height { get; private set; }
         
-        public Collider(float width, float height)
+        public Collider(int width, int height)
         {
             ColliderSystem.Register(this);
-            Width = width;
-            Height = height;
+            Dimensions = new Rectangle(0, 0, width, height);
         }
         
         public override void Initialize()

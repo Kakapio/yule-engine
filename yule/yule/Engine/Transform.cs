@@ -8,7 +8,7 @@ namespace yule.Engine
     public class Transform : Component
     {
         public Vector2 Position { get; private set; }
-        public Vector2 Velocity { get; set; }
+        public Vector2 Velocity { get; private set; }
 
         public Transform()
         {
@@ -21,6 +21,11 @@ namespace yule.Engine
 
             Position += Velocity;
             Velocity = Vector2.Zero;
+        }
+
+        public void Translate(Vector2 amount)
+        {
+            Velocity += amount;
         }
     }
 }

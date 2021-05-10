@@ -49,7 +49,7 @@ namespace yule.Engine
         {
         }
 
-        float SweptAABB(Entity e1, Entity e2, float normalX, float normalY)
+        public static float SweptAABB(Entity e1, Entity e2, out float normalX, out float normalY)
         {
             Point pos1 = e1.GetComponent<Collider>().Dimensions.Location;
             Point pos2 = e2.GetComponent<Collider>().Dimensions.Location;

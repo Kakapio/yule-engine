@@ -6,7 +6,7 @@ namespace yule.Gameplay
 {
     public class PlayerMovement : Component
     {
-        private Vector2 speed = Vector2.One * 1500;
+        private Vector2 speed = Vector2.One * 150;
         private Transform transform;
 
         public PlayerMovement()
@@ -28,13 +28,13 @@ namespace yule.Gameplay
 
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.A))
-                transform.Velocity -= new Vector2(speed.X, 0) * deltaTime;
+                transform.Translate(new Vector2(-speed.X, 0) * deltaTime);
             else if (state.IsKeyDown(Keys.D))
-                transform.Velocity += new Vector2(speed.X, 0) * deltaTime;
+                transform.Translate(new Vector2(speed.X, 0) * deltaTime);
             if (state.IsKeyDown(Keys.S))
-                transform.Velocity += new Vector2(0, speed.Y) * deltaTime;
+                transform.Translate(new Vector2(0, speed.Y) * deltaTime);
             else if (state.IsKeyDown(Keys.W))
-                transform.Velocity -= new Vector2(0, speed.Y) * deltaTime;
+                transform.Translate(new Vector2(0, -speed.Y) * deltaTime);
         }
     }
 }

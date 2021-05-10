@@ -29,7 +29,7 @@ namespace yule.Engine
                     return (T)comp;
             }
 
-            return default(T);
+            return null;
         }
 
         /// <summary>

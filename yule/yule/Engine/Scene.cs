@@ -29,6 +29,7 @@ namespace yule.Engine
         public void Initialize()
         {
             Entities.Add(new Player());
+            Entities.Add(new CollidableBox());
             foreach (var entity in Entities)
             {
                 entity.Initialize();
@@ -45,14 +46,12 @@ namespace yule.Engine
             ColliderSystem.Update(gameTime);
             DefaultSystem.Update(gameTime);
             
-            #if DEBUG
             CheckDebugMode();
-            #endif
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: camera.TransformMatrix);
+            spriteBatch.Begin(transformMatrix: camera.TransformMatrix, samplerState: SamplerState.PointClamp);
             
             TileMap.Render(spriteBatch, camera.VisibleArea, debugMode);
 
@@ -73,7 +72,10 @@ namespace yule.Engine
                     //Rendering code to show colliders
                     if (debugMode)
                     {
-                        //TODO
+                        if (entity.GetComponent<Collider>() != null)
+                        {
+                            RenderColliderOutline(spriteBatch, entity);
+                        }
                     }
                 }
             }
@@ -90,6 +92,22 @@ namespace yule.Engine
                 debugMode = !debugMode;
 
             prevKeyBoardState = keyboardState;
+        }
+        
+        private void RenderColliderOutline(SpriteBatch spriteBatch, Entity entity)
+        {
+            int posX = (int) entity.GetComponent<Transform>().Position.X;
+            int posY = (int) entity.GetComponent<Transform>().Position.Y;
+            Rectangle collider = entity.GetComponent<Collider>().Dimensions;
+            
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX, posY,
+                2, collider.Height), Color.Fuchsia); // Left
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX + collider.Width, posY,
+                2, collider.Height), Color.Fuchsia); // Right
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX, posY,
+                collider.Width, 2), Color.Fuchsia); // Top
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX, posY + collider.Height,
+                collider.Width + 2, 2), Color.Fuchsia); // Bottom TODO investigate
         }
     }
 }

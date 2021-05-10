@@ -20,12 +20,12 @@ namespace yule.Engine
             
             //Initialize all tiles to air
             for (int col = 0; col < Data.GetLength(0); col++)
-                for (int row = 0; row < Data.GetLength(1); row++)
-                    Data[col, row] = new Tile(TileType.Air, 1);
+            for (int row = 0; row < Data.GetLength(1); row++)
+                Data[col, row] = new Tile(TileType.Air, 1);
             
             for (int col = 16; col < Data.GetLength(0); col++)
-                for (int row = 16; row < Data.GetLength(1); row++)
-                    Data[col, row] = new Tile(TileType.Dirt, 1);
+            for (int row = 16; row < Data.GetLength(1); row++)
+                Data[col, row] = new Tile(TileType.Dirt, 1);
         }
 
         public void Render(SpriteBatch spriteBatch, Rectangle visibleArea, bool debugMode)
@@ -35,17 +35,17 @@ namespace yule.Engine
             
             //The min coordinates of tiles that should be rendered. Taken from the camera's position.
             Vector2 lowerBound = new Vector2(Math.Clamp(visibleArea.X / TileSize - renderPadding, 0, Data.GetLength(0) - 1), 
-                                             Math.Clamp(visibleArea.Y / TileSize - renderPadding, 0, Data.GetLength(1) - 1));
+                Math.Clamp(visibleArea.Y / TileSize - renderPadding, 0, Data.GetLength(1) - 1));
             
             /*Calculate a new upperBound taking into account our original value, camera's position, and padding.
              Max value is the size of our array, minimum is 0.*/
-            upperBound = new Vector2(Math.Clamp(upperBound.X + lowerBound.X + renderPadding, 0, Data.GetLength(0)),
-                                     Math.Clamp(upperBound.Y + lowerBound.Y + renderPadding, 0, Data.GetLength(1)));
+            upperBound = new Vector2(Math.Clamp(upperBound.X + lowerBound.X + renderPadding, 0, Data.GetLength(0) - 1),
+                Math.Clamp(upperBound.Y + lowerBound.Y + renderPadding, 0, Data.GetLength(1) - 1));
             
             //Draw loop is constrained to visible tiles. Anything done within will also have culling built-in.
-            for (int col = (int)lowerBound.X; col < upperBound.X; col++)
+            for (int col = (int)lowerBound.X; col <= upperBound.X; col++)
             {
-                for (int row = (int)lowerBound.Y; row < upperBound.Y; row++)
+                for (int row = (int)lowerBound.Y; row <= upperBound.Y; row++)
                 {
                     if (Data[col, row].Type == TileType.Air && !debugMode)
                         continue;
@@ -61,11 +61,19 @@ namespace yule.Engine
                         new Vector2(col * TileSize, row * TileSize), Color.White);
 
                     if (debugMode)
+                    {
                         RenderTileOutline(spriteBatch, col, row);
+                    }
                 }
             }
         }
 
+        /// <summary>
+        /// Render a tile's full outline. For use with first/last tiles.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="col"></param>
+        /// <param name="row"></param>
         private void RenderTileOutline(SpriteBatch spriteBatch, int col, int row)
         {
             spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(col * TileSize, row * TileSize,
