@@ -47,98 +47,18 @@ namespace yule.Engine
 
         public static void Update(GameTime gameTime)
         {
+            if (components[0].Dimensions.Intersects(components[1].Dimensions))
+                components[1].Owner.GetComponent<Transform>().Colliding = true;
+            else
+                components[1].Owner.GetComponent<Transform>().Colliding = false;
         }
 
-        public static float SweptAABB(Entity e1, Entity e2, out float normalX, out float normalY)
+        /*public static float SweptAABB(Entity e1, Entity e2, out float normalX, out float normalY)
         {
-            Point pos1 = e1.GetComponent<Collider>().Dimensions.Location;
-            Point pos2 = e2.GetComponent<Collider>().Dimensions.Location;
-            Rectangle size1 = e1.GetComponent<Collider>().Dimensions;
-            Rectangle size2 = e2.GetComponent<Collider>().Dimensions;
-            Vector2 v1 = e1.GetComponent<Transform>().Velocity;
-            Vector2 v2 = e2.GetComponent<Transform>().Velocity;
+            Box b1 = e1.GetComponent<Collider>().Dimensions;
+            Box b2 = e2.GetComponent<Collider>().Dimensions;
 
-            float xInvEntry, yInvEntry;
-            float xInvExit, yInvExit;
-
-            if (v1.X > 0.0f)
-            {
-                xInvEntry = pos2.X - (pos1.X + size1.Width);
-                xInvExit = (pos2.X + size2.Width) - pos1.X;
-            }
-            else
-            {
-                xInvEntry = (pos2.X + size2.Width) - pos1.X;
-                xInvExit = pos2.X - (pos1.X + size1.Width);
-            }
-
-            if (v1.Y > 0.0f)
-            {
-                yInvEntry = (pos2.Y + size2.Height) - pos1.Y;
-                yInvExit = (pos2.Y + size2.Height) - pos1.Y;
-            }
-            else
-            {
-                yInvEntry = (pos2.Y + size2.Height) - pos1.Y;
-                yInvExit = pos2.Y - (pos1.Y + size1.Height);
-            }
-
-            float xEntry = 0, yEntry = 0;
-            float xExit = 0, yExit = 0;
-
-            if (v1.Y == 0.0f)
-            {
-                xEntry = float.NegativeInfinity;
-                yExit = float.PositiveInfinity;
-            }
-            else
-            {
-                yEntry = yInvEntry / v1.Y;
-                yExit = yInvExit / v1.Y;
-            }
-
-            float entryTime = MathF.Max(xEntry, yEntry);
-            float exitTime = MathF.Min(xExit, yExit);
-
-            if (entryTime > exitTime || xEntry < 0.0f && yEntry < 0.0f || xEntry > 1.0f || yEntry > 1.0f)
-            {
-                normalX = 0.0f;
-                normalY = 0.0f;
-                return 1.0f;
-            }
-            else // if there was a collision 
-            {
-                // calculate normal of collided surface
-                if (xEntry > yEntry)
-                {
-                    if (xInvEntry < 0.0f)
-                    {
-                        normalX = 1.0f;
-                        normalY = 0.0f;
-                    }
-                    else
-                    {
-                        normalX = -1.0f;
-                        normalY = 0.0f;
-                    }
-                }
-                else
-                {
-                    if (yInvEntry < 0.0f)
-                    {
-                        normalX = 0.0f;
-                        normalY = 1.0f;
-                    }
-                    else
-                    {
-                        normalX = 0.0f;
-                        normalY = -1.0f;
-                    }
-                }
-            }
-
-            return entryTime;
-        }
+        }*/
     }
 
     class DefaultSystem : BaseSystem<Component>

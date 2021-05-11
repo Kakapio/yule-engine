@@ -9,18 +9,24 @@ namespace yule.Engine
     /// </summary>
     public class Collider : Component
     {
-        public Rectangle Dimensions { get; private set; }
+        public Box Dimensions { get; private set; }
         public string CollisionLayer { get; private set; }
+
+        private int width, height;
         
         public Collider(int width, int height)
         {
             ColliderSystem.Register(this);
-            Dimensions = new Rectangle(0, 0, width, height);
+            this.width = width;
+            this.height = height;
         }
         
         public override void Initialize()
         {
             base.Initialize();
+            
+            Dimensions = new Box(ref Owner.GetComponent<Transform>().Position, width, height, 
+                ref Owner.GetComponent<Transform>().Velocity);
         }
 
         public override void Update(GameTime gameTime)

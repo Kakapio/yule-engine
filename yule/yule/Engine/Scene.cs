@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Humper;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,7 +52,7 @@ namespace yule.Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: camera.TransformMatrix, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(transformMatrix: camera.ViewMatrix, samplerState: SamplerState.PointClamp);
             
             TileMap.Render(spriteBatch, camera.VisibleArea, debugMode);
 
@@ -98,16 +99,16 @@ namespace yule.Engine
         {
             int posX = (int) entity.GetComponent<Transform>().Position.X;
             int posY = (int) entity.GetComponent<Transform>().Position.Y;
-            Rectangle collider = entity.GetComponent<Collider>().Dimensions;
+            Box collider = entity.GetComponent<Collider>().Dimensions;
             
             spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX, posY,
-                2, collider.Height), Color.Fuchsia); // Left
-            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX + collider.Width, posY,
-                2, collider.Height), Color.Fuchsia); // Right
+                2, (int)collider.Height), Color.Fuchsia); // Left
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX + (int)collider.Width, posY,
+                2, (int)collider.Height), Color.Fuchsia); // Right
             spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX, posY,
-                collider.Width, 2), Color.Fuchsia); // Top
-            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX, posY + collider.Height,
-                collider.Width + 2, 2), Color.Fuchsia); // Bottom TODO investigate
+                (int)collider.Width, 2), Color.Fuchsia); // Top
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(posX, posY + (int)collider.Height,
+                (int)collider.Width + 2, 2), Color.Fuchsia); // Bottom TODO investigate
         }
     }
 }

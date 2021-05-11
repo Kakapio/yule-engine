@@ -13,8 +13,9 @@ namespace yule.Gameplay
             
             AddComponent(renderer);
             AddComponent(new PlayerMovement());
+            AddComponent(new Collider(25, 25));
             renderer.Dimensions = new Rectangle(0, 0, 25, 25);
-            renderer.Color = Color.Red;
+            renderer.Color = Color.DarkGreen;
         }
     }
 }
