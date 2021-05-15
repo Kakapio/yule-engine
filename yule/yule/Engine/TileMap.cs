@@ -7,12 +7,14 @@ namespace yule.Engine
     /// <summary>
     /// Represents a 2D array of tiles.
     /// </summary>
-    public class TileMap
+    public class TileMap : Entity
     {
-        public int TileSize { get; private set; }
-        public Tile[,] Data { get; private set; }
+        public int TileSize { get; }
+        public Tile[,] Data { get; }
 
-        public TileMap(int sizeX, int sizeY, int tileSize)
+        private Transform transform;
+
+        public TileMap(int sizeX, int sizeY, int tileSize) : base()
         {
             Data = new Tile[sizeX, sizeY];
             TileSize = tileSize;
@@ -27,6 +29,14 @@ namespace yule.Engine
                 Data[col, row] = new Tile(TileType.Dirt, 1);
         }
 
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            transform = GetComponent<Transform>();
+            transform.Position = Vector2.One * 14;
+        }
+
         public void Render(SpriteBatch spriteBatch, Rectangle visibleArea, bool debugMode)
         {
             //The max coordinates of tiles that should be rendered. Taken from the furthest visible points on screen.
@@ -36,7 +46,7 @@ namespace yule.Engine
             Vector2 lowerBound = new Vector2(Math.Clamp(visibleArea.X / TileSize, 0, Data.GetLength(0) - 1), 
                 Math.Clamp(visibleArea.Y / TileSize, 0, Data.GetLength(1) - 1));
             
-            /*Calculate a new upperBound taking into account our original value, camera's position, and padding.
+            /*Calculate a new upperBound taking into account our original value and camera's position.
              Max value is the size of our array, minimum is 0.*/
             upperBound = new Vector2(Math.Clamp(upperBound.X + lowerBound.X, 0, Data.GetLength(0) - 1),
                 Math.Clamp(upperBound.Y + lowerBound.Y, 0, Data.GetLength(1) - 1));
@@ -68,20 +78,23 @@ namespace yule.Engine
         }
 
         /// <summary>
-        /// Render a tile's full outline. For use with first/last tiles.
+        /// Render a tile's full outline.
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="col"></param>
         /// <param name="row"></param>
         private void RenderTileOutline(SpriteBatch spriteBatch, int col, int row)
         {
-            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(col * TileSize, row * TileSize,
+            int x = (int)(col * TileSize /*+ transform.Position.X*/);
+            int y = (int)(row * TileSize /*+ transform.Position.Y*/);
+            
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(x, y,
                 1, TileSize), Color.Blue); // Left
-            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(col * TileSize, row * TileSize,
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(x, y,
                 1, TileSize), Color.Blue); // Right
-            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(col * TileSize, row * TileSize,
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(x, y,
                 TileSize, 1), Color.Blue); // Top
-            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(col * TileSize, row * TileSize,
+            spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(x, y,
                 TileSize, 1), Color.Blue); // Bottom
         }
     }
