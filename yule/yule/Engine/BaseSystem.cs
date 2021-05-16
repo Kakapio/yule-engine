@@ -61,7 +61,7 @@ namespace yule.Engine
         }*/
     }
 
-    class DefaultSystem : BaseSystem<BaseComponent>
+    class DefaultSystem : BaseSystem<Component>
     {
     } //Used for all other component types.
 }
