@@ -11,7 +11,6 @@ namespace yule.Gameplay
 
         public PlayerMovement()
         {
-            DefaultSystem.Register(this);
         }
         
         public override void Initialize()

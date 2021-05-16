@@ -9,7 +9,7 @@ namespace yule.Engine
     /// Used to ensure that all instances of certain component types are updated at once.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseSystem<T> where T : Component
+    public class BaseSystem<T> where T : BaseComponent
     {
         private static List<T> components = new List<T>();
 
@@ -61,7 +61,7 @@ namespace yule.Engine
         }*/
     }
 
-    class DefaultSystem : BaseSystem<Component>
+    class DefaultSystem : BaseSystem<BaseComponent>
     {
     } //Used for all other component types.
 }

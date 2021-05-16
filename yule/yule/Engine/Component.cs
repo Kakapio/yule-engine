@@ -1,20 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace yule.Engine
+﻿namespace yule.Engine
 {
     /// <summary>
     /// Describes a piece of logic with initialization and update methods.
     /// </summary>
-    public class Component
+    public abstract class Component : BaseComponent
     {
-        public Entity Owner { get; set; }
-
-        public virtual void Initialize()
+        protected Component()
         {
-        }
-
-        public virtual void Update(GameTime gameTime)
-        {
+            DefaultSystem.Register(this);
         }
     }
 }

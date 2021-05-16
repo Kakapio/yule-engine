@@ -16,8 +16,6 @@ namespace yule.Engine
 
         public TileMap(int sizeX, int sizeY, int tileSize)
         {
-            DefaultSystem.Register(this);
-            
             Data = new Tile[sizeX, sizeY];
             TileSize = tileSize;
             

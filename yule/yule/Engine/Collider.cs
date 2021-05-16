@@ -7,7 +7,7 @@ namespace yule.Engine
     /// <summary>
     /// Contains collision detection logic.
     /// </summary>
-    public class Collider : Component
+    public class Collider : BaseComponent
     {
         public Box Dimensions { get; private set; }
         public string CollisionLayer { get; private set; }

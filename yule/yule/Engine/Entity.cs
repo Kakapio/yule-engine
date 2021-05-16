@@ -9,7 +9,7 @@ namespace yule.Engine
     /// </summary>
     public class Entity
     {
-        protected readonly List<Component> Components = new List<Component>();
+        protected readonly List<BaseComponent> Components = new List<BaseComponent>();
 
         public Entity()
         {
@@ -21,7 +21,7 @@ namespace yule.Engine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetComponent<T>() where T : Component
+        public T GetComponent<T>() where T : BaseComponent
         {
             foreach (var comp in Components)
             {
@@ -36,7 +36,7 @@ namespace yule.Engine
         /// Add a component to the entity and initialize it.
         /// </summary>
         /// <param name="comp"></param>
-        public void AddComponent(Component comp)
+        public void AddComponent(BaseComponent comp)
         {
             Components.Add(comp);
             comp.Owner = this;

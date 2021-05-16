@@ -6,7 +6,7 @@ namespace yule.Engine
     /// <summary>
     /// Contains data used to render textures more precisely.
     /// </summary>
-    public class Sprite : Component
+    public class Sprite : BaseComponent
     {
         public Texture2D Texture { get; set; }
         public Color Color { get; set; }

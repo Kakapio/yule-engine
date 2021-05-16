@@ -5,7 +5,7 @@ namespace yule.Engine
     /// <summary>
     /// Describes the position of an entity. Provides methods to change the position.
     /// </summary>
-    public class Transform : Component
+    public class Transform : BaseComponent
     {
         public Vector2 Position;
         public Vector2 Velocity;
