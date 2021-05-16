@@ -29,11 +29,11 @@ namespace yule.Engine
         {
             base.Update(gameTime);
 
-            if (!Colliding)
-            {
+            //if (!Colliding)
+            //{
                 Position += Velocity;
                 Velocity = Vector2.Zero;
-            }
+            //}
 
             prevPosition = Position;
         }

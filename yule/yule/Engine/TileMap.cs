@@ -7,15 +7,17 @@ namespace yule.Engine
     /// <summary>
     /// Represents a 2D array of tiles.
     /// </summary>
-    public class TileMap : Entity
+    public class TileMap : Component
     {
         public int TileSize { get; }
         public Tile[,] Data { get; }
 
         private Transform transform;
 
-        public TileMap(int sizeX, int sizeY, int tileSize) : base()
+        public TileMap(int sizeX, int sizeY, int tileSize)
         {
+            DefaultSystem.Register(this);
+            
             Data = new Tile[sizeX, sizeY];
             TileSize = tileSize;
             
@@ -23,18 +25,14 @@ namespace yule.Engine
             for (int col = 0; col < Data.GetLength(0); col++)
             for (int row = 0; row < Data.GetLength(1); row++)
                 Data[col, row] = new Tile(TileType.Air, 1);
-            
-            for (int col = 16; col < Data.GetLength(0); col++)
-            for (int row = 16; row < Data.GetLength(1); row++)
-                Data[col, row] = new Tile(TileType.Dirt, 1);
         }
 
         public override void Initialize()
         {
             base.Initialize();
 
-            transform = GetComponent<Transform>();
-            transform.Position = Vector2.One * 14;
+            transform = Owner.GetComponent<Transform>();
+            transform.Position = new Vector2(-650, 0);
         }
 
         public void Render(SpriteBatch spriteBatch, Rectangle visibleArea, bool debugMode)
@@ -67,7 +65,8 @@ namespace yule.Engine
                     }
                     
                     spriteBatch.Draw(GameContent.Textures[Data[col, row].Type.ToString().ToLower()], 
-                        new Vector2(col * TileSize, row * TileSize), Color.White);
+                        new Vector2(col * TileSize, row * TileSize) + transform.Position, 
+                        Color.White);
 
                     if (debugMode)
                     {
@@ -78,6 +77,17 @@ namespace yule.Engine
         }
 
         /// <summary>
+        /// Set a tile at the given coordinates to a specified tile.
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="row"></param>
+        /// <param name="tile"></param>
+        public void SetTile(int col, int row, Tile tile)
+        {
+            Data[col, row] = tile;
+        }
+
+        /// <summary>
         /// Render a tile's full outline.
         /// </summary>
         /// <param name="spriteBatch"></param>
@@ -85,8 +95,8 @@ namespace yule.Engine
         /// <param name="row"></param>
         private void RenderTileOutline(SpriteBatch spriteBatch, int col, int row)
         {
-            int x = (int)(col * TileSize /*+ transform.Position.X*/);
-            int y = (int)(row * TileSize /*+ transform.Position.Y*/);
+            int x = col * TileSize + (int)transform.Position.X;
+            int y = row * TileSize + (int)transform.Position.Y;
             
             spriteBatch.Draw(DefaultSprites.WhiteSquare, new Rectangle(x, y,
                 1, TileSize), Color.Blue); // Left

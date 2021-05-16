@@ -14,8 +14,8 @@ namespace yule.Engine
     public class Scene
     {
         public readonly List<Entity> Entities = new List<Entity>();
-        public TileMap TileMap = new TileMap(1024, 1024, 8);
-
+        
+        private Entity map = new BasicMap();
         private World physicsWorld;
         private Camera camera;
         private bool debugMode;
@@ -29,8 +29,10 @@ namespace yule.Engine
         
         public void Initialize()
         {
-            Entities.Add(new Player());
-            Entities.Add(new CollidableBox());
+            AddEntityToScene(new Player());
+            AddEntityToScene(new CollidableBox());
+            AddEntityToScene(map);
+            
             foreach (var entity in Entities)
             {
                 entity.Initialize();
@@ -54,7 +56,7 @@ namespace yule.Engine
         {
             spriteBatch.Begin(transformMatrix: camera.ViewMatrix, samplerState: SamplerState.PointClamp);
             
-            TileMap.Render(spriteBatch, camera.VisibleArea, debugMode);
+            map.GetComponent<TileMap>().Render(spriteBatch, camera.VisibleArea, debugMode);
 
             //Render all entities.
             foreach (var entity in Entities)
@@ -79,6 +81,11 @@ namespace yule.Engine
                 debugMode = !debugMode;
 
             prevKeyBoardState = keyboardState;
+        }
+
+        private void AddEntityToScene(Entity entity)
+        {
+            Entities.Add(entity);
         }
     }
 }
